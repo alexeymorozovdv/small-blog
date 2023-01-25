@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->foreignId('user_id')->nullable()
                 ->references('id')
-                ->on('brands')
+                ->on('users')
                 ->nullOnDelete();
             $table->foreignId('published_by')->nullable()
                 ->references('id')
