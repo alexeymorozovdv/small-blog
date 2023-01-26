@@ -40,6 +40,13 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials, $request->has('remember'))) {
+            if (is_null(Auth::user()->email_verified_at)) {
+                Auth::logout();
+                return redirect()
+                    ->route('auth.verify-message')
+                    ->withErrors('Email address has not been verified');
+            }
+
             return redirect()
                 ->route('user.index')
                 ->with('success', 'You have successfully login');
