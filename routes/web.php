@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Auth
 Route::group(['as' => 'auth.', 'prefix' => 'auth'] , function () {
     Route::get('register', [RegisterController::class, 'create'])
         ->name('create');
@@ -40,4 +42,10 @@ Route::group(['as' => 'auth.', 'prefix' => 'auth'] , function () {
         ->name('reset-form');
     Route::post('reset-password', [ResetPasswordController::class, 'reset'])
         ->name('reset-password');
+    Route::get('verify-message', [VerifyEmailController::class, 'message'])
+        ->name('verify-message');
+    Route::get('verify-email/token/{token}/id/{id}', [VerifyEmailController::class, 'verify'])
+        ->where('token', '[\w%]+')
+        ->where('id', '[0-9]+')
+        ->name('verify-email');
 });
