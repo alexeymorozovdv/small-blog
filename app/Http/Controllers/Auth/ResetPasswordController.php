@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Hash;
 
 class ResetPasswordController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('guest');
     }
 
