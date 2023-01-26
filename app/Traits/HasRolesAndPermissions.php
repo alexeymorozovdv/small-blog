@@ -178,4 +178,112 @@ trait HasRolesAndPermissions
     {
         return $this->roles->pluck('slug')->toArray();
     }
+
+    /**
+     * Add $permissions to the current user (in addition to those previously assigned)
+     *
+     * @param ...$permissions
+     * @return User
+     */
+    public function assignPermissions(...$permissions): User
+    {
+        $permissions = Permission::whereIn('slug', $permissions)->get();
+        if ($permissions->count() === 0) {
+            return $this;
+        }
+
+        $this->permissions()->syncWithoutDetaching($permissions);
+
+        return $this;
+    }
+
+    /**
+     * Remove $permissions from the current user (from those previously assigned)
+     *
+     * @param ...$permissions
+     * @return User
+     */
+    public function unassignPermissions(...$permissions): User
+    {
+        $permissions = Permission::whereIn('slug', $permissions)->get();
+        if ($permissions->count() === 0) {
+            return $this;
+        }
+
+        $this->permissions()->detach($permissions);
+
+        return $this;
+    }
+
+    /**
+     * Assign $permissions rights to the current user (remove all previously assigned rights)
+     *
+     * @param ...$permissions
+     * @return User
+     */
+    public function refreshPermissions(...$permissions): User
+    {
+        $permissions = Permission::whereIn('slug', $permissions)->get();
+        if ($permissions->count() === 0) {
+            return $this;
+        }
+
+        $this->permissions()->sync($permissions);
+
+        return $this;
+    }
+
+    /**
+     * Add $roles to the current user (in addition to those already assigned)
+     *
+     * @param ...$roles
+     * @return User
+     */
+    public function assignRoles(...$roles): User
+    {
+        $roles = Role::whereIn('slug', $roles)->get();
+        if ($roles->count() === 0) {
+            return $this;
+        }
+
+        $this->roles()->syncWithoutDetaching($roles);
+
+        return $this;
+    }
+
+    /**
+     * Remove $roles from the current user (from those previously assigned)
+     *
+     * @param ...$roles
+     * @return User
+     */
+    public function unassignRoles(...$roles): User
+    {
+        $roles = Role::whereIn('slug', $roles)->get();
+        if ($roles->count() === 0) {
+            return $this;
+        }
+
+        $this->roles()->detach($roles);
+
+        return $this;
+    }
+
+    /**
+     * Assign the current user the roles $roles (remove all previously assigned roles)
+     *
+     * @param ...$roles
+     * @return User
+     */
+    public function refreshRoles(...$roles): User
+    {
+        $roles = Role::whereIn('slug', $roles)->get();
+        if ($roles->count() === 0) {
+            return $this;
+        }
+
+        $this->roles()->sync($roles);
+
+        return $this;
+    }
 }
