@@ -45,8 +45,18 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()
-            ->route('auth.login')
-            ->with('success', 'You have successfully registered');
+        // Send a verify email
+        $token = str_replace('=', '', md5($user->email . $user->name));
+        $link = route('auth.verify-email', ['token' => $token, 'id' => $user->id]);
+        Mail::send(
+            'email.verify-email',
+            ['link' => $link],
+            function ($message) use ($request) {
+                $message->to($request->email);
+                $message->subject('Verify email');
+            }
+        );
+
+        return redirect()->route('auth.verify-message');
     }
 }
