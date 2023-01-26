@@ -80,10 +80,10 @@ trait HasRolesAndPermissions
     /**
      * Does a user have a permission directly or via one of his roles
      *
-     * @param $permission
+     * @param string $permission
      * @return bool
      */
-    public function hasPermissionAnyWay($permission) : bool
+    public function hasPermissionAnyWay(string $permission) : bool
     {
         /** @var User $this */
         return $this->hasPermissionViaRoles($permission) || $this->hasPermission($permission);
