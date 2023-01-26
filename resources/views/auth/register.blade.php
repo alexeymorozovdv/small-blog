@@ -5,7 +5,7 @@
     <form method="post" action="{{ route('auth.store') }}" class="w-75">
         @csrf
         <div class="form-group mt-4">
-            <input type="text" class="form-control" name="name" placeholder="John Doe"
+            <input type="text" class="form-control" name="name" placeholder="Name"
                    required maxlength="255" value="{{ old('name') ?? '' }}">
         </div>
         <div class="form-group mt-2">
@@ -13,11 +13,11 @@
                    required maxlength="255" value="{{ old('email') ?? '' }}">
         </div>
         <div class="form-group mt-2">
-            <input type="text" class="form-control" name="password" placeholder="Password"
+            <input type="password" class="form-control" name="password" placeholder="Password"
                    required maxlength="255" value="">
         </div>
         <div class="form-group mt-2">
-            <input type="text" class="form-control" name="password_confirmation"
+            <input type="password" class="form-control" name="password_confirmation"
                    placeholder="Password confirmation" required maxlength="255" value="">
         </div>
         <div class="form-group mt-4">
