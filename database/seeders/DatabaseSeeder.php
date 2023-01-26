@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Post;
@@ -32,5 +31,10 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
-    }
+
+        $this->call(RoleTableSeeder::class);
+        $this->call(PermissionTableSeeder::class);
+        $this->call(RolePermissionTableSeeder::class);
+        $this->call(UserPermissionTableSeeder::class);
+        $this->call(UserRoleTableSeeder::class);    }
 }
