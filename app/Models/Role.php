@@ -19,4 +19,16 @@ class Role extends Model
             ->belongsToMany(Permission::class, 'role_permission')
             ->withTimestamps();
     }
+
+    /**
+     * A permission has many users
+     *
+     * @return BelongsToMany
+     */
+    public function users(): BelongsToMany
+    {
+        return $this
+            ->belongsToMany(User::class,'user_role')
+            ->withTimestamps();
+    }
 }
