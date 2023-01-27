@@ -56,6 +56,17 @@ class Post extends Model
     }
 
     /**
+     * Associating the Post model with the Auth model, allows you to get the administrator who allowed the post
+     * to be published
+     *
+     * @return BelongsTo
+     */
+    public function editor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'published_by');
+    }
+
+    /**
      * Select only published posts from the database
      *
      * @param Builder $builder
@@ -64,5 +75,37 @@ class Post extends Model
     public function scopePublished(Builder $builder): Builder
     {
         return $builder->whereNotNull('published_by');
+    }
+
+    /**
+     * Allow post's publication
+     *
+     * @return void
+     */
+    public function enable(): void
+    {
+        $this->published_by = auth()->user()->id;
+        $this->update();
+    }
+
+    /**
+     * Discard post's publication
+     *
+     * @return void
+     */
+    public function disable(): void
+    {
+        $this->published_by = null;
+        $this->update();
+    }
+
+    /**
+     * Returns true if publication is allowed
+     *
+     * @return bool
+     */
+    public function isVisible(): bool
+    {
+        return !is_null($this->published_by);
     }
 }
