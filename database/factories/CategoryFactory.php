@@ -17,10 +17,13 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
-        $name = $this->faker->realText(rand(40, 50));
+        static $i = 0;
+        $name = $this->faker->word();
+        $i++;
 
         return [
             'name' => $name,
+            'parent_id' => $i > 3 ? rand(1, 3) : 0,
             'content' => $this->faker->realText(rand(200, 500)),
             'slug' => Str::slug($name),
         ];
