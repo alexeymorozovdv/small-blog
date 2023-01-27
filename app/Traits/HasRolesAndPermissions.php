@@ -48,6 +48,24 @@ trait HasRolesAndPermissions
     }
 
     /**
+     * Does the current user have any rights from $permissions either directly, or through one of his roles
+     *
+     * @param ...$roles
+     * @return bool
+     */
+    public function hasAnyRoles(...$roles): bool
+    {
+        /** @var User $this */
+        foreach ($roles as $role) {
+            if ($this->hasRole($role)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Does user have a specific permission
      *
      * @param string $permission

@@ -27,7 +27,14 @@ class RoleServiceProvider extends ServiceProvider
         Blade::directive('role', function ($role) {
             return "<?php if(auth()->check() && auth()->user()->hasRole({$role})): ?>";
         });
-        Blade::directive('endrole', function ($role) {
+        Blade::directive('endrole', function () {
+            return "<?php endif; ?>";
+        });
+
+        Blade::directive('anyroles', function ($roles) {
+            return "<?php if(auth()->check() && auth()->user()->hasAnyRoles({$roles})): ?>";
+        });
+        Blade::directive('endanyroles', function () {
             return "<?php endif; ?>";
         });
     }
