@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\IndexController;
+use \App\Http\Controllers\User\IndexController as UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', IndexController::class)->name('index');
+Route::get('user/index', UserController::class)->name('user.index');
 
 // Auth
 Route::group(['as' => 'auth.', 'prefix' => 'auth'] , function () {
@@ -59,4 +62,18 @@ Route::group(['as' => 'blog.', 'prefix' => 'blog',], function () {
     Route::get('author/{user}', [BlogController::class, 'author'])->name('author');
     Route::get('tag/{tag:slug}', [BlogController::class, 'tag'])->name('tag');
     Route::get('post/{post:slug}', [BlogController::class, 'post'])->name('post');
+});
+
+/*
+ * Control panel: CRUD operations on posts, categories, tags
+ */
+Route::group([
+    'as' => 'admin.',
+    'prefix' => 'admin',
+    'middleware' => ['auth']
+], function () {
+    Route::resource('post', PostController::class, ['except' => ['create', 'store']]);
+    Route::get('post/category/{category}', [PostController::class, 'category'])->name('post.category');
+    Route::get('post/enable/{post}', [PostController::class, 'enable'])->name('post.enable');
+    Route::get('post/disable/{post}', [PostController::class, 'disable'])->name('post.disable');
 });
