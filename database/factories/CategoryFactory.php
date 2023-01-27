@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         static $i = 0;
-        $name = $this->faker->word();
+        $name = ucfirst($this->faker->word());
         $i++;
 
         return [

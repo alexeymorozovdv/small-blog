@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 
@@ -47,4 +48,15 @@ Route::group(['as' => 'auth.', 'prefix' => 'auth'] , function () {
         ->where('token', '[\w%]+')
         ->where('id', '[0-9]+')
         ->name('verify-email');
+});
+
+/*
+ * Blog: all posts, category posts, tag posts, post page
+ */
+Route::group(['as' => 'blog.', 'prefix' => 'blog',], function () {
+    Route::get('index', [BlogController::class, 'index'])->name('index');
+    Route::get('category/{category:slug}', [BlogController::class, 'category'])->name('category');
+    Route::get('author/{user}', [BlogController::class, 'author'])->name('author');
+    Route::get('tag/{tag:slug}', [BlogController::class, 'tag'])->name('tag');
+    Route::get('post/{post:slug}', [BlogController::class, 'post'])->name('post');
 });

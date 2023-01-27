@@ -18,5 +18,6 @@
             @include('layout._flash')
         </div>
     </div>
+    @include('layout._footer')
 </body>
 </html>

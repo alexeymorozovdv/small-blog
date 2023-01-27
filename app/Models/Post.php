@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,6 +13,7 @@ class Post extends Model
 {
     use HasFactory;
 
+    protected $with = ['author', 'tags'];
 
     /**
      * A post belongs to single user (author)
@@ -51,5 +53,16 @@ class Post extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Select only published posts from the database
+     *
+     * @param Builder $builder
+     * @return Builder
+     */
+    public function scopePublished(Builder $builder): Builder
+    {
+        return $builder->whereNotNull('published_by');
     }
 }
