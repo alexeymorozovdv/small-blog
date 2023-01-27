@@ -47,6 +47,8 @@ class RegisterController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $user->assignRoles('user')->save();
+
         // Send a verify email
         $token = str_replace('=', '', md5($user->email . $user->name));
         $link = route('auth.verify-email', ['token' => $token, 'id' => $user->id]);
