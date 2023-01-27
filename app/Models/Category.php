@@ -22,4 +22,14 @@ class Category extends Model
     {
         return $this->hasMany(Post::class);
     }
+
+    /**
+     * Returns a collection with root categories
+     *
+     * @return Collection
+     */
+    public static function roots(): Collection
+    {
+        return self::where(self::PARENT_ID_COLUMN, 0)->get();
+    }
 }

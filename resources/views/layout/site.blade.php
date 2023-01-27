@@ -14,7 +14,7 @@
     @include('layout._navbar')
     <div class="container mt-5">
         <div class="row">
-            @include('layout._sidebar')
+            @include('layout.sidebar._sidebar')
             @include('layout._flash')
         </div>
     </div>
