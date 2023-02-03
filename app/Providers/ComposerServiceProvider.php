@@ -27,7 +27,7 @@ class ComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         $views = [
-            'layout.part._categories',
+            'layout.sidebar._categories',
             'admin.part._categories',
             'admin.part._parent',
             'admin.part._all-tags',
@@ -44,6 +44,9 @@ class ComposerServiceProvider extends ServiceProvider
 
         View::composer('admin.part._all-tags', function($view) {
             $view->with(['items' => Tag::all()]);
+        });
+        View::composer('layout.sidebar._popular-tags', function($view) {
+            $view->with(['items' => Tag::popular()]);
         });
     }
 }
