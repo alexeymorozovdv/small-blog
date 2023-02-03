@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Contracts\View\View;
@@ -101,11 +102,11 @@ class PostController extends Controller
     /**
      * Updates a post
      *
-     * @param Request $request
+     * @param PostRequest $request
      * @param Post $post
      * @return RedirectResponse
      */
-    public function update(Request $request, Post $post): RedirectResponse
+    public function update(PostRequest $request, Post $post): RedirectResponse
     {
         $post->update($request->all());
         $post->tags()->sync($request->tags);
