@@ -20,6 +20,10 @@
     </select>
 </div>
 <div class="form-group mt-3">
+    <label for="tags" class="form-label">Tags</label>
+    @include('admin.part._all-tags')
+</div>
+<div class="form-group mt-3">
     <label for="excerpt" class="form-label">Excerpt</label>
     <textarea class="form-control" name="excerpt" placeholder="Excerpt" id="excerpt"
               required maxlength="500">{{ old('excerpt') ?? $post->excerpt ?? '' }}</textarea>
@@ -40,6 +44,6 @@
         </label>
     </div>
 @endisset
-<div class="form-group mt-3">
+<div class="form-group mt-3 mb-5">
     <button type="submit" class="btn btn-primary">Save</button>
 </div>
