@@ -26,11 +26,24 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('layout.sidebar._categories', function($view) {
-            $view->with(['items' => Category::roots()]);
+        $views = [
+            'layout.part._categories',
+            'admin.part._categories',
+            'admin.part._parent',
+            'admin.part._all-tags',
+        ];
+
+        View::composer($views, function($view) {
+            static $items = null;
+            if (is_null($items)) {
+                $items = Category::all();
+            }
+
+            $view->with(['items' => $items]);
         });
-        View::composer('layout.sidebar._popular-tags', function($view) {
-            $view->with(['items' => Tag::popular()]);
+
+        View::composer('admin.part._all-tags', function($view) {
+            $view->with(['items' => Tag::all()]);
         });
     }
 }
