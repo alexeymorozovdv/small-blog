@@ -31,8 +31,13 @@
             <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                 @auth()
                     <li class="nav-item">
-                        <a class="nav-link" href="#">My Account</a>
+                        <a class="nav-link" href="{{ route('user.index') }}">My Account</a>
                     </li>
+                    @anyroles('root', 'admin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.post.index') }}">Admin Panel</a>
+                        </li>
+                    @endanyroles
                     <li class="nav-item">
                         <form action="{{ route('auth.logout') }}" method="POST">
                             @csrf
