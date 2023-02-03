@@ -3,6 +3,9 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -46,5 +49,22 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    /**
+     * Convert a validation exception into a response.
+     *
+     * @param Request $request
+     * @param ValidationException $exception
+     * @return Response
+     */
+    protected function invalid($request, ValidationException $exception): Response
+    {
+        $redirect = parent::invalid($request, $exception);
+        if (session('preview')) {
+            return $redirect->with('preview', 'yes');
+        }
+
+        return $redirect;
     }
 }
